@@ -1,3 +1,5 @@
+#ifndef INCLUDE_H
+#define INCLUDE_H
 /*sock_init.c*/
 #if defined(_WIN32)
 #ifndef _WIN32_WINNT
@@ -15,18 +17,17 @@
 #include <unistd.h>
 #include <errno.h>
 #endif
+#if defined(_WIN32)
+#define ISVALIDSOCKET(s) ((s) != INVALID_SOCKET)
+#define CLOSESOCKET(s) closesocket(s)
+#define GETSOCKETERRNO() (WSAGetLastError())
+#else
+#define ISVALIDSOCKET(s) ((s) >= 0)
+#define CLOSESOCKET(s) close(s)
+#define SOCKET int
+#define GETSOCKETERRNO() (errno)
+#endif
 #include <stdio.h>
-int main() {
-#if defined(_WIN32)
-    WSADATA d;
-    if (WSAStartup(MAKEWORD(2, 2), &d)) {
-        fprintf(stderr, "Failed to initialize.\n");
-        return 1;
-    }
+#include <string.h>
+#include <time.h>
 #endif
-    printf("Ready to use socket API.\n");
-#if defined(_WIN32)
-    WSACleanup();
-#endif
-    return 0;
-}
