@@ -50,8 +50,9 @@ int main()
     {
         printf("socket initialization failed error:%d\n", GETSOCKETERRNO());
     }
-    char sent[1024];
-    recv(client, sent, strlen(sent), 0);
+    char sen[1024];
+    int x = recv(client, sen, 1024, 0);
+    printf("receive %d bytes", x);
     // sending response
     const char *response =
         // a simple HTTP header
@@ -60,7 +61,7 @@ int main()
         "Content-Type: text/plain\r\n\r\n"
         "Echo: ";
     send(client, response, strlen(response), 0);
-    int bytes = send(client, message, strlen(message), (int)strlen(message));
+    int bytes = send(client, message, strlen(message), 0);
     printf("bytes sent: %d of %d\n", bytes, (int)strlen(message));
     printf("closing sockets\n");
     CLOSESOCKET(client);
