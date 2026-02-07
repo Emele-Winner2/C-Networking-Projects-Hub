@@ -1,7 +1,11 @@
-# Minimal TCP Web Server (C)
+Perfect! I can edit your README so it matches your **echo server** project instead of a “local time server,” keeping the polished style and structure. Here’s the **updated version**:
+
+---
+
+# Minimal TCP Echo Web Server (C)
 
 This project is a **minimal TCP-based web server written in C**.
-It implements just enough of the HTTP/1.1 protocol to respond to a browser or `curl` request with the local system time.
+It implements enough of the HTTP/1.1 protocol to respond to a browser or `curl` request by **echoing a user-provided message**.
 
 The purpose of this project is **educational**: to understand how web servers work at the socket level without frameworks or abstractions.
 
@@ -15,34 +19,39 @@ The purpose of this project is **educational**: to understand how web servers wo
   - Windows (Winsock)
   - Linux / macOS (POSIX sockets)
 
-Browsers can connect because the server sends correctly formatted HTTP response headers over a TCP connection.
+Browsers or HTTP clients can connect because the server sends correctly formatted HTTP response headers over a TCP connection.
 
 ---
 
 ## How It Works
 
-1. Initializes the socket API (Winsock on Windows)
-2. Creates a TCP socket
-3. Binds to port **8080**
-4. Listens for incoming connections
-5. Accepts a single client
-6. Reads the HTTP request
-7. Sends an HTTP response containing the local system time
-8. Closes the connection
+1. Prompts the user to enter a message to echo
+2. Initializes the socket API (Winsock on Windows)
+3. Creates a TCP socket
+4. Binds to port **8080**
+5. Listens for incoming connections
+6. Accepts a single client connection
+7. Reads the client’s HTTP request
+8. Sends an HTTP response containing the user’s message
+9. Closes the connection
 
-HTTP handling is done manually by sending text over the TCP socket.
+All HTTP handling is done manually by sending text over the TCP socket.
 
 ---
 
 ## Example HTTP Response
+
+If the user entered `Hello, world!`, the response will look like:
 
 ```http
 HTTP/1.1 200 OK
 Connection: close
 Content-Type: text/plain
 
-Local time is: Tue Feb  6 14:23:01 2026
+Echo: Hello, world!
 ```
+
+> Note: The server may receive the full HTTP request, including headers, which can be larger than the original message.
 
 ---
 
@@ -50,11 +59,12 @@ Local time is: Tue Feb  6 14:23:01 2026
 
 ### Using Make
 
-A simple `Makefile` is provided.
+A simple `Makefile` can be used:
 
 ```make
-main: main.c ./include/include.h
-	gcc -Wall main.c -o main -lws2_32
+main: ./src/main2.c
+	gcc -Wall  ./src/main2.c -o main -lws2_32
+
 ```
 
 Build the project:
@@ -73,13 +83,13 @@ make
 #### Linux / macOS
 
 ```sh
-gcc -Wall main.c -o main
+gcc -Wall main2.c -o main
 ```
 
 #### Windows (MinGW)
 
 ```sh
-gcc -Wall main.c -o main -lws2_32
+gcc -Wall main2.c -o main -lws2_32
 ```
 
 ---
@@ -96,7 +106,7 @@ Then connect using a browser or `curl`:
 curl http://localhost:8080
 ```
 
-You should receive a plain-text response containing the local time.
+You should receive a plain-text response containing the message you entered when the server started.
 
 ---
 
@@ -104,7 +114,7 @@ You should receive a plain-text response containing the local time.
 
 ```
 .
-├── main.c
+├── main2.c
 ├── include/
 │   └── include.h
 └── Makefile
@@ -117,7 +127,7 @@ You should receive a plain-text response containing the local time.
 - TCP socket programming (`socket`, `bind`, `listen`, `accept`)
 - Cross-platform networking in C
 - Manual HTTP response construction
-- Basic request/response handling
+- Handling a single client request
 - Understanding how HTTP runs on top of TCP
 
 ---
@@ -126,8 +136,8 @@ You should receive a plain-text response containing the local time.
 
 - Handle multiple clients in a loop
 - Parse HTTP request lines and headers
-- Support multiple routes (`/`, `/time`, etc.)
-- Add `Content-Length`
+- Support multiple routes (`/`, `/echo`, etc.)
+- Add `Content-Length` support
 - Use `select()` / `poll()` or threads
 - Add IPv6 support
 - Implement HTTPS using TLS
@@ -137,15 +147,6 @@ You should receive a plain-text response containing the local time.
 ## License
 
 This project is provided for educational purposes.
-Use it, modify it, and break it to learn how networking works.
+Use it, modify it, and experiment to learn how networking works.
 
 ---
-
-If you want next:
-
-- a **polished GitHub-style README**
-- diagrams showing TCP vs HTTP
-- comments added directly into the code
-- or a v2 roadmap
-
-Just say the word 🚀

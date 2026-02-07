@@ -119,7 +119,3 @@ This project is for **educational purposes**.
 You are free to use, modify, and experiment with the code.
 
 ---
-
-I can also make an **even more visually appealing version** with **badges, table of contents, and emojis for each project section**, which is really nice for GitHub.
-
-Do you want me to do that next?

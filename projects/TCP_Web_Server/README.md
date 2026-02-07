@@ -53,8 +53,9 @@ Local time is: Tue Feb  6 14:23:01 2026
 A simple `Makefile` is provided.
 
 ```make
-main: main.c ./include/include.h
-	gcc -Wall main.c -o main -lws2_32
+main: ./src/main.c
+	gcc -Wall  ./src/main.c -o main -lws2_32
+
 ```
 
 Build the project:
@@ -140,12 +141,3 @@ This project is provided for educational purposes.
 Use it, modify it, and break it to learn how networking works.
 
 ---
-
-If you want next:
-
-- a **polished GitHub-style README**
-- diagrams showing TCP vs HTTP
-- comments added directly into the code
-- or a v2 roadmap
-
-Just say the word 🚀
